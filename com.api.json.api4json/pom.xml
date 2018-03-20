@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.wnm3</groupId>
-	<artifactId>com.github.wnm3</artifactId>
+	<artifactId>API4JSON</artifactId>
 	<version>1.0.0</version>
 	<name>API4JSON</name>
 	<description>API's to manipulate JSON modeled after IBM's json4j including key-sorted serialization</description>
