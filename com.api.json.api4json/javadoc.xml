@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project>
 <project default="javadoc">
     <target name="javadoc">
         <javadoc access="public" author="true" classpath="target/test-classes" destdir="doc" doctitle="API4JSON JavaDoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.api.json" source="1.8" sourcepath="src/test/java:src/main/java" splitindex="true" use="true" version="true"/>
