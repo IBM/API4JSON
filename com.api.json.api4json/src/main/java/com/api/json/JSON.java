@@ -308,8 +308,8 @@ public class JSON implements Serializable {
    }
 
    /**
-    * Expands the input String content to unicode sequences for characters >=
-    * 0x100
+    * Expands the input String content to unicode sequences for characters greater
+    * than or equal to 0x100
     * 
     * @param input
     *           String to be formatted
