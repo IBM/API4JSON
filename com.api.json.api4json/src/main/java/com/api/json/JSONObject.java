@@ -155,6 +155,9 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
+      if (value == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
+      }
       if (value != null && isValidType(value.getClass()) == false) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
