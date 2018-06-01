@@ -124,6 +124,9 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
+      if (element == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
+      }
       if (element instanceof Number) {
          element = JSON.getNumber(((Number) element).doubleValue(),
             element.toString());
@@ -140,6 +143,9 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       if (element != null && JSON.isValidType(element.getClass()) == false) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
+      }
+      if (element == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
       }
       if (element instanceof Number) {
          element = JSON.getNumber(((Number) element).doubleValue(),
@@ -160,6 +166,9 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
+         }
+         if (element == this) {
+            throw new IllegalArgumentException("Can not put an object into itself.");
          }
          if (element instanceof Number) {
             element = JSON.getNumber(((Number) element).doubleValue(),
@@ -182,6 +191,9 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
+         }
+         if (element == this) {
+            throw new IllegalArgumentException("Can not put an object into itself.");
          }
          if (element instanceof Number) {
             element = JSON.getNumber(((Number) element).doubleValue(),

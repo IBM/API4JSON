@@ -187,6 +187,9 @@ public class JSONObject extends HashMap<String, Object>
             throw new IllegalArgumentException("Invalid type of value.  Type: ["
                + value.getClass().getName() + "] with value: [" + value + "]");
          }
+         if (value == this) {
+            throw new IllegalArgumentException("Can not put an object into itself.");
+         }
          if (value instanceof Number) {
             value = JSON.getNumber(((Number) value).doubleValue(),
                value.toString());
@@ -209,6 +212,9 @@ public class JSONObject extends HashMap<String, Object>
       if (value != null && isValidType(value.getClass()) == false) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
+      }
+      if (value == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
       }
       if (value instanceof Number) {
          value = JSON.getNumber(((Number) value).doubleValue(),
@@ -241,6 +247,9 @@ public class JSONObject extends HashMap<String, Object>
          return null;
       }
       Object test = get(key);
+      if (value == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
+      }
       // there is something to replace
       if (value instanceof Number) {
          value = JSON.getNumber(((Number) value).doubleValue(),
@@ -277,6 +286,9 @@ public class JSONObject extends HashMap<String, Object>
       }
       if (test.equals(oldValue) == false) {
          return false;
+      }
+      if (value == this) {
+         throw new IllegalArgumentException("Can not put an object into itself.");
       }
       if (value instanceof Number) {
          value = JSON.getNumber(((Number) value).doubleValue(),
