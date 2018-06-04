@@ -1,0 +1,26 @@
+{
+   "entities":[{
+         "a":"https://newline\n\"here\" escaped solidus \/",
+         "aa":"\\ ",
+         "aaa":"\u2122\u849c\u8089",
+         "created":"2017-11-27T21:41:42.794Z",
+         "description":null,
+         "entity":"sys-date",
+         "metadata":null,
+         "filtered":true,
+         "double":1.0,
+         "moreDouble":1.1,
+         "anotherDouble":-3.1415926,
+         "updated":"2017-11-27T21:41:42.794Z",
+         "values":["test","test1",1234.5]
+      },
+      {
+         "created":"2017-11-16T22:06:25.652Z",
+         "description":null,
+         "entity":"sys-number",
+         "metadata":null,
+         "updated":"2017-11-16T22:06:25.652Z",
+         "values":[]
+      }
+   ]
+}
