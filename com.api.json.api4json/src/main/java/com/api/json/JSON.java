@@ -308,8 +308,7 @@ public class JSON implements Serializable {
    }
 
    /**
-    * Expands the input String content to unicode sequences for characters greater
-    * than or equal to 0x100
+    * Expands the input String content to unicode sequences for non ASCII characters
     * 
     * @param input
     *           String to be formatted
@@ -321,7 +320,15 @@ public class JSON implements Serializable {
       for (int i = 0; i < chars.length; i++) {
          char ch = chars[i];
          if (ch < 0x100) {
-            sb.append(ch);
+            if (ch > 0x1F && ch < 0x7F) {
+               sb.append(ch);
+            } else {
+               if (ch > 0x09) {
+                  sb.append("\\u00"+Character.digit(ch, 16));
+               } else {
+                  sb.append("\\u000"+Character.digit(ch, 16));
+               }
+            }
          } else if (ch < 0x1000) {
             sb.append("\\u0" + Integer.toHexString(ch));
          } else {
