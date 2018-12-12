@@ -323,7 +323,7 @@ public class JSON implements Serializable {
             if (ch > 0x1F && ch < 0x7F) {
                sb.append(ch);
             } else {
-               if (ch > 0x09) {
+               if (ch > 0x0f) {
                   sb.append("\\u00"+Integer.toHexString(ch));
                } else {
                   sb.append("\\u000"+(int)ch);
