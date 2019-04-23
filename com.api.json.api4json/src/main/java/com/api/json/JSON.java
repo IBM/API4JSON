@@ -59,8 +59,8 @@ public class JSON implements Serializable {
    static public int INCR = BLANKS.length();
    static private final char LBKT = '[';
    static private final char LBRC = '{';
-   static private int LN_CNTR = 0;
-   static private int LN_OFFSET = 1;
+   static public int LN_CNTR = 0;
+   static public int LN_OFFSET = 1;
    // static private final char NLN = '\n';
    static private final char RBKT = ']';
    static private final char RBRC = '}';
@@ -193,7 +193,7 @@ public class JSON implements Serializable {
                break;
             }
             default: {
-               doPushBack(jtok, location);
+            	doPushBack(jtok, location);
                Object key = recurseParser(jtok, location);
                if (key == null) {
                   throw new IOException("Expecting string key on line "
@@ -271,7 +271,7 @@ public class JSON implements Serializable {
     *         be converted to {@link Long} or {@link Double}.
     */
    static private Object doValue(JSONStreamTokenizer jtok, Integer[] location) {
-      location[LN_OFFSET] = location[LN_OFFSET] + jtok.sval.length();
+      location[LN_OFFSET] = location[LN_OFFSET] + (jtok.sval == null ? 0 : jtok.sval.length());
       if (jtok.ttype == DQTE) {
          return jtok.sval;
       }
@@ -363,7 +363,7 @@ public class JSON implements Serializable {
       throws IOException {
       skipWhitespace(jtok, location);
       location[LN_OFFSET] = location[LN_OFFSET] + 1;
-      return jtok.nextToken();
+      return jtok.nextToken(location);
    }
 
    /**
@@ -611,10 +611,10 @@ public class JSON implements Serializable {
     */
    static private int skipWhitespace(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
-      int tokType = jtok.nextToken();
+      int tokType = jtok.nextToken(location);
       while (tokType == SPC) {
          location[LN_OFFSET] = location[LN_OFFSET] + 1;
-         tokType = jtok.nextToken(); // keep eating spaces
+         tokType = jtok.nextToken(location); // keep eating spaces
       }
       // back up to prior non-space character
       doPushBack(jtok, location);

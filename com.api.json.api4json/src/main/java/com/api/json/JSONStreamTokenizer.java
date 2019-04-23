@@ -86,12 +86,12 @@ public class JSONStreamTokenizer {
    public int ttype = TT_UNKNOWN;
 
    /**
-    * Constructs the JST from a {@link java.io.Reader}. There is no constructor for an
-    * {@link java.io.InputStream} because it can be made into a reader. The same is true
-    * for a {@link String}.
+    * Constructs the JST from a {@link java.io.Reader}. There is no constructor for
+    * an {@link java.io.InputStream} because it can be made into a reader. The same
+    * is true for a {@link String}.
     * 
     * @param r
-    *           the reader to be read containing JSON content.
+    *          the reader to be read containing JSON content.
     */
    public JSONStreamTokenizer(Reader r) {
       resetSyntax();
@@ -124,7 +124,7 @@ public class JSONStreamTokenizer {
     * 
     * @return true if we are parsing a number
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
    private boolean checkForNumber() throws IOException {
       if ((_charTable[_nextChar] & _IS_NUMERIC) != 0) {
@@ -159,8 +159,7 @@ public class JSONStreamTokenizer {
                }
             }
             // if this is not a number
-            if ((_charTable[_nextChar] & _IS_NUMERIC) == 0
-               && _nextChar != HYP) {
+            if ((_charTable[_nextChar] & _IS_NUMERIC) == 0 && _nextChar != HYP) {
                _reader.unread(_nextChar);
                try {
                   nval = new Double(_currentValue.toString());
@@ -193,7 +192,7 @@ public class JSONStreamTokenizer {
     * 
     * @return true if we have reached quoted content
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
    private boolean checkForQuotedWord() throws IOException {
       if ((_charTable[_nextChar] & _IS_QUOTE) != 0) {
@@ -201,76 +200,74 @@ public class JSONStreamTokenizer {
          int _lookAhead = readNextChar();
          // process quoted string, addressing escaped characters and octal
          // codes
-         while (_lookAhead != ttype && _lookAhead != NLN && _lookAhead != CRT
-            && _lookAhead != EOF) {
+         while (_lookAhead != ttype && _lookAhead != NLN && _lookAhead != CRT && _lookAhead != EOF) {
             // handle escaped content
             if (_lookAhead == BSH) {
                _nextChar = readNextChar();
                // process other escaped characters
                switch (_nextChar) {
-                  case 't': {
-                     _nextChar = TAB;
-                     break;
-                  }
-                  case 'n': {
-                     _nextChar = NLN;
-                     break;
-                  }
-                  case 'r': {
-                     _nextChar = CRT;
-                     break;
-                  }
-                  case 'f': {
-                     _nextChar = FFD;
-                     break;
-                  }
-                  case 'b': {
-                     _nextChar = BSP;
-                     break;
-                  }
-                  case BSH: {
-                     _nextChar = BSH;
-                     break;
-                  }
-                  case DQTE: {
-                     _nextChar = DQTE;
-                     break;
-                  }
-                  case SQTE: {
-                     _nextChar = SQTE;
-                     break;
-                  }
-                  case 'u': {
-                     // part of unicode so need to read next 4 digits
-                     int d1, d2, d3, d4 = 0;
-                     d1 = readNextChar();
-                     if (isHexChar(d1)) {
-                        d2 = readNextChar();
-                        if (isHexChar(d2)) {
-                           d3 = readNextChar();
-                           if (isHexChar(d3)) {
-                              d4 = readNextChar();
-                              if (isHexChar(d4)) {
-                                 char[] cBuf = new char[4];
-                                 cBuf[0] = (char) d1;
-                                 cBuf[1] = (char) d2;
-                                 cBuf[2] = (char) d3;
-                                 cBuf[3] = (char) d4;
-                                 String test = new String(cBuf);
-                                 if (test.toLowerCase().equals("000a")) {
-                                    _nextChar = NLN;
-                                 } else {
-                                    _nextChar = (char) Integer.parseInt(test,
-                                       16);
-                                 }
-                              } // end 4th digit
-                           } // end 3rd digit
-                        } // end 2nd digit
-                     } // end 1st digit
-                  } // end unicode parsing
-                  default: {
-                     break;
-                  }
+               case 't': {
+                  _nextChar = TAB;
+                  break;
+               }
+               case 'n': {
+                  _nextChar = NLN;
+                  break;
+               }
+               case 'r': {
+                  _nextChar = CRT;
+                  break;
+               }
+               case 'f': {
+                  _nextChar = FFD;
+                  break;
+               }
+               case 'b': {
+                  _nextChar = BSP;
+                  break;
+               }
+               case BSH: {
+                  _nextChar = BSH;
+                  break;
+               }
+               case DQTE: {
+                  _nextChar = DQTE;
+                  break;
+               }
+               case SQTE: {
+                  _nextChar = SQTE;
+                  break;
+               }
+               case 'u': {
+                  // part of unicode so need to read next 4 digits
+                  int d1, d2, d3, d4 = 0;
+                  d1 = readNextChar();
+                  if (isHexChar(d1)) {
+                     d2 = readNextChar();
+                     if (isHexChar(d2)) {
+                        d3 = readNextChar();
+                        if (isHexChar(d3)) {
+                           d4 = readNextChar();
+                           if (isHexChar(d4)) {
+                              char[] cBuf = new char[4];
+                              cBuf[0] = (char) d1;
+                              cBuf[1] = (char) d2;
+                              cBuf[2] = (char) d3;
+                              cBuf[3] = (char) d4;
+                              String test = new String(cBuf);
+                              if (test.toLowerCase().equals("000a")) {
+                                 _nextChar = NLN;
+                              } else {
+                                 _nextChar = (char) Integer.parseInt(test, 16);
+                              }
+                           } // end 4th digit
+                        } // end 3rd digit
+                     } // end 2nd digit
+                  } // end 1st digit
+               } // end unicode parsing
+               default: {
+                  break;
+               }
                } // end switch on escaped character
                _lookAhead = readNextChar();
             } else { // end dealing with escaped value
@@ -293,12 +290,12 @@ public class JSONStreamTokenizer {
    }
 
    /**
-    * Determine if we have reached a word. Note: this is used for detecting
-    * boolean and null values.
+    * Determine if we have reached a word. Note: this is used for detecting boolean
+    * and null values.
     * 
     * @return true if we find unquoted words
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
    private boolean checkForWord() throws IOException {
       if ((_charTable[_nextChar] & _IS_WORD) != 0) {
@@ -331,7 +328,7 @@ public class JSONStreamTokenizer {
     * Sets reporting when end of line is detected
     * 
     * @param flag
-    *           whether or not to report when end of line is detected
+    *             whether or not to report when end of line is detected
     */
    public void eolIsSignificant(boolean flag) {
       _eolSignificant = flag;
@@ -341,11 +338,13 @@ public class JSONStreamTokenizer {
    /**
     * Handles an encountered end of line that can be signaled as /r, /r/n, or /n
     * 
+    * @param location
+    *                 where we are in the input stream
     * @return true if an end of line was processed
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
-   boolean handleEndOfLine() throws IOException {
+   boolean handleEndOfLine(Integer[] location) throws IOException {
       if (_nextChar == CRT) {
          // skip /n if there is one, else push back
          _nextChar = readNextChar();
@@ -353,12 +352,16 @@ public class JSONStreamTokenizer {
             _reader.unread(_nextChar);
          } else {
             // eat the newline
+            location[JSON.LN_CNTR]++;
+            location[JSON.LN_OFFSET] = 0;
          }
          if (_eolSignificant) {
             ttype = TT_EOL;
             return true;
          }
       } else if (_nextChar == NLN) {
+         location[JSON.LN_CNTR]++;
+         location[JSON.LN_OFFSET] = 0;
          if (_eolSignificant) {
             ttype = TT_EOL;
             return true;
@@ -376,7 +379,7 @@ public class JSONStreamTokenizer {
     * Tests input for hex characters 0-9, A-F, or a-f
     * 
     * @param test
-    *           input character to be tested
+    *             input character to be tested
     * @return true if input is a hex character
     */
    boolean isHexChar(int test) {
@@ -397,11 +400,13 @@ public class JSONStreamTokenizer {
     * number is detected, it is returned as a double in the nval. If a word or
     * quoted word is detected, it is returned in the sval.
     * 
+    * @param location
+    *                 where we are reading from the input stream
     * @return the type of next token encountered in the reader
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
-   public int nextToken() throws IOException {
+   public int nextToken(Integer[] location) throws IOException {
       if (_isPushedBack) {
          _isPushedBack = false;
          return ttype;
@@ -414,9 +419,13 @@ public class JSONStreamTokenizer {
          return ttype;
       }
       if (skipNewLines()) {
-         return ttype;
+         location[JSON.LN_CNTR]++;
+         location[JSON.LN_OFFSET] = 0;
+         if (ttype == SPC) {
+            return ttype;
+         }
       }
-      if (skipWhitespace()) {
+      if (skipWhitespace(location)) {
          return ttype;
       }
       // have first non-whitespace character
@@ -441,20 +450,21 @@ public class JSONStreamTokenizer {
    /**
     * Sets the supplied character as ordinary in the character lookup table
     * 
-    * @param ch The character to be tested
+    * @param ch
+    *           The character to be tested
     */
    public void ordinaryChar(int ch) {
       _charTable[ch] = _IS_ORDINARY;
    }
 
    /**
-    * Sets the range of characters supplied (including the endpoints) as
-    * ordinary in the character lookup table
+    * Sets the range of characters supplied (including the endpoints) as ordinary
+    * in the character lookup table
     * 
     * @param low
-    *           starting, lower value character
+    *            starting, lower value character
     * @param hi
-    *           ending, higher value character
+    *            ending, higher value character
     */
    public void ordinaryChars(int low, int hi) {
       for (int i = low; i < hi; i++) {
@@ -465,8 +475,7 @@ public class JSONStreamTokenizer {
 
    /**
     * Initializes the character lookup table for known digits for numeric
-    * characters, along with the decimal point and minus sign. TODO: add plus
-    * sign?
+    * characters, along with the decimal point and minus sign. TODO: add plus sign?
     */
    public void parseNumbers() {
       // use OR because NUMERIC characters can also be wordChars
@@ -482,7 +491,7 @@ public class JSONStreamTokenizer {
     * token.
     * 
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
    public void pushBack() throws IOException {
       if (ttype != TT_UNKNOWN) {
@@ -494,7 +503,8 @@ public class JSONStreamTokenizer {
     * Sets the supplied character as a quote delimiter for quoted word
     * identification in the character lookup table
     * 
-    * @param ch The character defining a quote character
+    * @param ch
+    *           The character defining a quote character
     */
    public void quoteChar(int ch) {
       _charTable[ch] = _IS_QUOTE;
@@ -505,7 +515,7 @@ public class JSONStreamTokenizer {
     * 
     * @return the next character read from the reader
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
    private int readNextChar() throws IOException {
       if (_reader == null) {
@@ -553,19 +563,20 @@ public class JSONStreamTokenizer {
    }
 
    /**
-    * Skips whitespace encountered up to a non-whitespace or end of line
-    * character, or the end of file has been reached.
+    * Skips whitespace encountered up to a non-whitespace or end of line character,
+    * or the end of file has been reached.
     * 
     * @return true if end of line or end of file has been reached.
     * @throws IOException
-    *            if unable to read from the reader
+    *                     if unable to read from the reader
     */
-   private boolean skipWhitespace() throws IOException {
+   private boolean skipWhitespace(Integer[] location) throws IOException {
       while ((_charTable[_nextChar] & _IS_WHITESPACE) != 0) {
          // handle newline combinations /r, /r/n, /n
-         if (handleEndOfLine()) {
+         if (handleEndOfLine(location)) {
             return true;
          } // else this is just whitespace so keep reading
+         location[JSON.LN_OFFSET]++;
          _nextChar = readNextChar();
       }
       return false;
@@ -580,32 +591,32 @@ public class JSONStreamTokenizer {
    public String toString() {
       String value = "";
       switch (ttype) {
-         case TT_WORD: {
-            value = sval;
-            value = "WORD" + " value:" + value;
-            break;
-         }
-         case TT_EOF: {
-            value = "EOF";
-            break;
-         }
-         case TT_EOL: {
-            value = "EOL";
-            break;
-         }
-         case TT_NUMBER: {
-            value = Double.toString(nval);
-            value = "NUMBER:" + " value:" + value;
-            break;
-         }
-         case TT_UNKNOWN: {
-            value = "unknown";
-            break;
-         }
-         default: {
-            value = "" + (char) ttype + "=0x" + Integer.toHexString(ttype);
-            break;
-         }
+      case TT_WORD: {
+         value = sval;
+         value = "WORD" + " value:" + value;
+         break;
+      }
+      case TT_EOF: {
+         value = "EOF";
+         break;
+      }
+      case TT_EOL: {
+         value = "EOL";
+         break;
+      }
+      case TT_NUMBER: {
+         value = Double.toString(nval);
+         value = "NUMBER:" + " value:" + value;
+         break;
+      }
+      case TT_UNKNOWN: {
+         value = "unknown";
+         break;
+      }
+      default: {
+         value = "" + (char) ttype + "=0x" + Integer.toHexString(ttype);
+         break;
+      }
       }
       return "Token[" + value + "]";
    }
@@ -614,9 +625,9 @@ public class JSONStreamTokenizer {
     * Sets the range of characters as whitespace in the character lookup table
     * 
     * @param low
-    *           starting, lower range of whitespace characters
+    *            starting, lower range of whitespace characters
     * @param hi
-    *           ending, higher range of whitespace characters
+    *            ending, higher range of whitespace characters
     */
    public void whitespaceChars(int low, int hi) {
       for (int i = low; i <= hi; i++) {
@@ -629,9 +640,9 @@ public class JSONStreamTokenizer {
     * table. These characters may also be flagged as numeric characters
     * 
     * @param low
-    *           starting, lower character range of word characters
+    *            starting, lower character range of word characters
     * @param hi
-    *           ending, higher character range of word characters
+    *            ending, higher character range of word characters
     */
    public void wordChars(int low, int hi) {
       for (int i = low; i <= hi; i++) {
