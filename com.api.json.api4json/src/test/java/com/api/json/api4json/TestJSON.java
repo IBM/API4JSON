@@ -101,5 +101,11 @@ public class TestJSON {
                      + e.getLocalizedMessage());
          }
       }
+      
+      // test for key escaping
+      JSONObject test = new JSONObject();
+      test.put("key with \"quoted string\"", "some value");
+      String testVal = "{\"key with \\\"quoted string\\\"\":\"some value\"}";
+      Assert.assertEquals(testVal, test.toString());
    }
 }

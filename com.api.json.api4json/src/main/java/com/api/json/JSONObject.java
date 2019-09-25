@@ -400,7 +400,7 @@ public class JSONObject extends HashMap<String, Object>
          for (int i = 0; i < indent; i += incr) {
             sb.append(JSON.BLANKS);
          }
-         sb.append("\"" + key + "\":");
+         sb.append("\"" + JSON.cleanUpString(key) + "\":");
          if (incr > 0) {
             sb.append(" ");
          }
