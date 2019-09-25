@@ -6,4 +6,6 @@ I have attempted to perform conversions for unicode characters, and to preserve 
 
 For people familiar with the IBM json4j library, simply use this jar and change the import statements from using com.ibm.json.java to com.api.json and everything should work as before.
 
+Developers, please use Eclipse version 2019-09 or later.
+
 Please contact Nathaniel Mills (wnm3@us.ibm.com) with questions.
