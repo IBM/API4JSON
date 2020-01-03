@@ -64,6 +64,7 @@ public class JSONStreamTokenizer {
 
    // text type references
    public static final int TT_EOF = -1;
+   public static final int TT_CR = '\r';
    public static final int TT_EOL = '\n';
    public static final int TT_NUMBER = -2;
    private static final int TT_UNKNOWN = -4;

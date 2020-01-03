@@ -101,11 +101,21 @@ public class TestJSON {
                      + e.getLocalizedMessage());
          }
       }
-      
+
       // test for key escaping
       JSONObject test = new JSONObject();
       test.put("key with \"quoted string\"", "some value");
       String testVal = "{\"key with \\\"quoted string\\\"\":\"some value\"}";
       Assert.assertEquals(testVal, test.toString());
+      
+      testVal = "{\"total_rows\":5597611,\"offset\":0,\"rows\":[\r\n" + 
+            "\t{}]}\r\n" + 
+            "";
+      try {
+         test = (JSONObject)JSON.parse(testVal);
+         System.out.println(test.serialize(true));
+      } catch (IOException e) {
+         Assert.fail("Failed to parse: "+testVal+" due to embedded carriage returns. "+e.getLocalizedMessage());
+      }
    }
 }

@@ -122,6 +122,7 @@ public class JSON implements Serializable {
                throw new IOException("Unterminated object on line "
                   + location[LN_CNTR] + ", column " + location[LN_OFFSET]);
             }
+            case JSONStreamTokenizer.TT_CR:
             case JSONStreamTokenizer.TT_EOL: {
                location[LN_CNTR] = location[LN_CNTR] + 1;
                location[LN_OFFSET] = 0;
@@ -140,7 +141,7 @@ public class JSON implements Serializable {
                tokType = getNextToken(jtok, location);
                if (tokType == JSONStreamTokenizer.TT_EOF) {
                   break;
-               } else if (tokType == JSONStreamTokenizer.TT_EOL) {
+               } else if (tokType == JSONStreamTokenizer.TT_EOL || tokType == JSONStreamTokenizer.TT_CR) {
                   location[LN_CNTR] = location[LN_CNTR] + 1;
                   location[LN_OFFSET] = 0;
                   break;
@@ -182,6 +183,7 @@ public class JSON implements Serializable {
                throw new IOException("Underminated object on line "
                   + location[LN_CNTR] + ", column " + location[LN_OFFSET]);
             }
+            case JSONStreamTokenizer.TT_CR:
             case JSONStreamTokenizer.TT_EOL: {
                location[LN_CNTR] = location[LN_CNTR] + 1;
                location[LN_OFFSET] = 0;
@@ -217,7 +219,7 @@ public class JSON implements Serializable {
                   tokType = getNextToken(jtok, location);
                   if (tokType == JSONStreamTokenizer.TT_EOF) {
                      break;
-                  } else if (tokType == JSONStreamTokenizer.TT_EOL) {
+                  } else if (tokType == JSONStreamTokenizer.TT_EOL || tokType == JSONStreamTokenizer.TT_CR) {
                      location[LN_CNTR] = location[LN_CNTR] + 1;
                      location[LN_OFFSET] = 0;
                      break;
@@ -507,7 +509,8 @@ public class JSON implements Serializable {
       jtok.quoteChar(DQTE);
       // Note: we are handling number parsing in doValue
       // jtok.parseNumbers();
-      jtok.whitespaceChars(TAB, TAB); // \t
+      // Note: took out tab so offset can be incremented
+      // jtok.whitespaceChars(TAB, TAB); // \t
       jtok.whitespaceChars(FFD, FFD); // \f
       jtok.whitespaceChars(BSP, BSP); // \b
       // Note: took out space so offset can be incremented
@@ -612,7 +615,7 @@ public class JSON implements Serializable {
    static private int skipWhitespace(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       int tokType = jtok.nextToken(location);
-      while (tokType == SPC) {
+      while (tokType == SPC || tokType == TAB) {
          location[LN_OFFSET] = location[LN_OFFSET] + 1;
          tokType = jtok.nextToken(location); // keep eating spaces
       }
