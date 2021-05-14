@@ -194,7 +194,7 @@ public class JSONObject extends HashMap<String, Object>
             value = JSON.getNumber(((Number) value).doubleValue(),
                value.toString());
          }
-         super.put(key == null ? null : key.toString(), value);
+         super.put((String)key, value);
       }
    }
 
