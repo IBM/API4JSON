@@ -78,7 +78,7 @@ public class JSONStreamTokenizer {
    int _nextChar = -1;
 
    PushbackReader _reader = null;
-   StringBuffer _currentValue = new StringBuffer();
+   StringBuilder _currentValue = new StringBuilder();
    int[] _charTable = new int[65536];
 
    // compatibility variables

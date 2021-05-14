@@ -312,7 +312,7 @@ public class JSONObject extends HashMap<String, Object>
    @Override
    public String serialize(boolean verbose) throws IOException {
       if (verbose) {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          return toString(sb, 0, JSON.INCR);
       }
       return toString();
@@ -338,7 +338,7 @@ public class JSONObject extends HashMap<String, Object>
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       os.write(toString(sb, 0, JSON.INCR).getBytes(StandardCharsets.UTF_8));
       return;
    }
@@ -363,7 +363,7 @@ public class JSONObject extends HashMap<String, Object>
       if (writer == null) {
          throw new NullPointerException("Writer is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       writer.write(toString(sb, 0, JSON.INCR));
       return;
    }
@@ -372,14 +372,14 @@ public class JSONObject extends HashMap<String, Object>
     * @return An unformatted rendering of this {@link JSONObject}
     */
    public String toString() {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       return toString(sb, 0, 0);
    }
 
    /**
-    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuffer, int, int)
+    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuilder, int, int)
     */
-   public String toString(StringBuffer sb, int indent, int incr) {
+   public String toString(StringBuilder sb, int indent, int incr) {
       boolean newObj = true;
       // depth first search to generate objects and values
       sb.append("{");
@@ -410,7 +410,7 @@ public class JSONObject extends HashMap<String, Object>
                sb.append("\"" + JSON.cleanUpString(obj) + "\"");
             } else if (obj instanceof JSONArtifact) {
                // this is a new JSONArtifact
-               sb.append(((JSONArtifact) obj).toString(new StringBuffer(),
+               sb.append(((JSONArtifact) obj).toString(new StringBuilder(),
                   indent, incr));
             } else {
                sb.append(obj);

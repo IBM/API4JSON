@@ -317,7 +317,7 @@ public class JSON implements Serializable {
     * @return Formatted output String
     */
    static protected String expandUnicode(String input) {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       char[] chars = input.toCharArray();
       for (int i = 0; i < chars.length; i++) {
          char ch = chars[i];

@@ -120,5 +120,5 @@ public interface JSONArtifact {
     *           the amount of incremental spacing used for formatted output.
     * @return Formatted JSON output.
     */
-   abstract String toString(StringBuffer sb, int indent, int incr);
+   abstract String toString(StringBuilder sb, int indent, int incr);
 }
