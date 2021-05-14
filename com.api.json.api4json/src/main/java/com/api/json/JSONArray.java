@@ -40,7 +40,7 @@ import java.util.Iterator;
 
 public class JSONArray extends ArrayList<Object> implements JSONArtifact {
 
-   static private final long serialVersionUID = 8669267182948350538L;
+   private static final long serialVersionUID = 8669267182948350538L;
 
    /**
     * Parses the supplied input stream to derive a {@link JSONArray}
@@ -51,7 +51,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(InputStream is) throws IOException {
+   public static JSONArray parse(InputStream is) throws IOException {
       JSONArtifact artifact = JSON.parse(is);
       try {
          return (JSONArray) artifact;
@@ -70,7 +70,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(Reader reader) throws IOException {
+   public static JSONArray parse(Reader reader) throws IOException {
       JSONArtifact artifact = JSON.parse(reader);
       try {
          return (JSONArray) artifact;
@@ -89,7 +89,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(String input) throws IOException {
+   public static JSONArray parse(String input) throws IOException {
       JSONArtifact artifact = JSON.parse(input);
       try {
          return (JSONArray) artifact;

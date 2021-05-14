@@ -43,7 +43,7 @@ import java.util.function.BiFunction;
 public class JSONObject extends HashMap<String, Object>
          implements JSONArtifact {
 
-   static private final long serialVersionUID = -3778496643896012786L;
+   private static final long serialVersionUID = -3778496643896012786L;
 
    /**
     * Determines whether the supplied object is a valid JSON value
@@ -52,7 +52,7 @@ public class JSONObject extends HashMap<String, Object>
     *           The object to be tested for validity
     * @return True if the supplied object is a valid JSON value
     */
-   static public boolean isValidObject(Object object) {
+   public static boolean isValidObject(Object object) {
       return JSON.isValidObject(object);
    }
 
@@ -63,7 +63,7 @@ public class JSONObject extends HashMap<String, Object>
     *           The class to be tested for validity
     * @return True if the supplied class is a valid JSON type
     */
-   static public boolean isValidType(Class<?> clazz) {
+   public static boolean isValidType(Class<?> clazz) {
       return JSON.isValidType(clazz);
    }
 
@@ -76,7 +76,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the input stream
     */
-   static public JSONObject parse(InputStream is) throws IOException {
+   public static JSONObject parse(InputStream is) throws IOException {
       return (JSONObject) JSON.parse(is);
    }
 
@@ -89,7 +89,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the reader
     */
-   static public JSONObject parse(Reader reader) throws IOException {
+   public static JSONObject parse(Reader reader) throws IOException {
       return (JSONObject) JSON.parse(reader);
    }
 
@@ -102,7 +102,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the input
     */
-   static public JSONObject parse(String input) throws IOException {
+   public static JSONObject parse(String input) throws IOException {
       return (JSONObject) JSON.parse(input);
    }
 

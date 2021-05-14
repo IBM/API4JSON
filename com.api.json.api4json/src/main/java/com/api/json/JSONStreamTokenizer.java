@@ -49,18 +49,18 @@ public class JSONStreamTokenizer {
    private static final int _IS_WORD = 0x008;
 
    // character constants
-   static private final int BSH = '\\';
-   static private final int BSP = '\b';
-   static private final int CRT = (int) '\r';
-   static private final int DPT = (int) '.';
-   static private final int DQTE = (int) '"';
-   static private final int EOF = -1;
-   static private final int FFD = (int) '\f';
-   static private final int HYP = (int) '-';
-   static private final int NLN = (int) '\n';
-   static private final int SPC = (int) ' ';
-   static private final int SQTE = (int) '\'';
-   static private final int TAB = (int) '\t';
+   private static final int BSH = '\\';
+   private static final int BSP = '\b';
+   private static final int CRT = (int) '\r';
+   private static final int DPT = (int) '.';
+   private static final int DQTE = (int) '"';
+   private static final int EOF = -1;
+   private static final int FFD = (int) '\f';
+   private static final int HYP = (int) '-';
+   private static final int NLN = (int) '\n';
+   private static final int SPC = (int) ' ';
+   private static final int SQTE = (int) '\'';
+   private static final int TAB = (int) '\t';
 
    // text type references
    public static final int TT_EOF = -1;

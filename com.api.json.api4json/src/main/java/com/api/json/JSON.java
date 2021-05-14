@@ -42,31 +42,31 @@ public class JSON implements Serializable {
    private static final long serialVersionUID = 6529512794958410259L;
 
    // used for serialization spacing (allows program control)
-   static public String BLANKS = "   ";
-   static public String BLANKSTR = "                                                            ";
+   public static String BLANKS = "   ";
+   public static String BLANKSTR = "                                                            ";
 
    // used to escape solidus (/) as (\/)
-   static protected boolean ESCAPE_SOLIDUS = true;
+   protected static boolean ESCAPE_SOLIDUS = true;
 
-   // static private final char BSH = '\\';
-   static private final char BSP = '\b';
+   // private static final char BSH = '\\';
+   private static final char BSP = '\b';
 
-   static private final char CLN = ':';
-   static private final char CMA = ',';
-   // static private final char CRT = '\r';
-   static private final char DQTE = '"';
-   static private final char FFD = '\f';
-   static public int INCR = BLANKS.length();
-   static private final char LBKT = '[';
-   static private final char LBRC = '{';
-   static public int LN_CNTR = 0;
-   static public int LN_OFFSET = 1;
-   // static private final char NLN = '\n';
-   static private final char RBKT = ']';
-   static private final char RBRC = '}';
-   static private final char SPC = ' ';
-   // static private final char SQTE = '\'';
-   static private final char TAB = '\t';
+   private static final char CLN = ':';
+   private static final char CMA = ',';
+   // private static final char CRT = '\r';
+   private static final char DQTE = '"';
+   private static final char FFD = '\f';
+   public static int INCR = BLANKS.length();
+   private static final char LBKT = '[';
+   private static final char LBRC = '{';
+   public static int LN_CNTR = 0;
+   public static int LN_OFFSET = 1;
+   // private static final char NLN = '\n';
+   private static final char RBKT = ']';
+   private static final char RBRC = '}';
+   private static final char SPC = ' ';
+   // private static final char SQTE = '\'';
+   private static final char TAB = '\t';
 
    /**
     * Provides special formatting of embedded characters to enable valid JSON
@@ -77,7 +77,7 @@ public class JSON implements Serializable {
     * @return Formatted String representation of the supplied object with
     *         appropriate expanded character sequences.
     */
-   static protected String cleanUpString(Object obj) {
+   protected static String cleanUpString(Object obj) {
       if (obj == null) {
          return null;
       }
@@ -111,7 +111,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static private Object doArray(JSONStreamTokenizer jtok, Integer[] location)
+   private static Object doArray(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       JSONArray array = new JSONArray();
       boolean keepGoing = true;
@@ -172,7 +172,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static private Object doObject(JSONStreamTokenizer jtok, Integer[] location)
+   private static Object doObject(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       JSONObject jobj = new JSONObject();
       boolean keepGoing = true;
@@ -254,7 +254,7 @@ public class JSON implements Serializable {
     *           Object to track the location (line and column within line) of
     *           the parser with respect to the input stream.
     */
-   static private void doPushBack(JSONStreamTokenizer jtok, Integer[] location) throws IOException {
+   private static void doPushBack(JSONStreamTokenizer jtok, Integer[] location) throws IOException {
       if (location[LN_OFFSET] > 0) {
          location[LN_OFFSET] = location[LN_OFFSET] - 1;
       }
@@ -272,7 +272,7 @@ public class JSON implements Serializable {
     * @return The object parsed from the input stream. Note: Numbers will either
     *         be converted to {@link Long} or {@link Double}.
     */
-   static private Object doValue(JSONStreamTokenizer jtok, Integer[] location) {
+   private static Object doValue(JSONStreamTokenizer jtok, Integer[] location) {
       location[LN_OFFSET] = location[LN_OFFSET] + (jtok.sval == null ? 0 : jtok.sval.length());
       if (jtok.ttype == DQTE) {
          return jtok.sval;
@@ -305,7 +305,7 @@ public class JSON implements Serializable {
     * @param set
     *           If true, solidus is printed as \/ rather than /
     */
-   static public void escapeSolidus(boolean set) {
+   public static void escapeSolidus(boolean set) {
       ESCAPE_SOLIDUS = set;
    }
 
@@ -316,7 +316,7 @@ public class JSON implements Serializable {
     *           String to be formatted
     * @return Formatted output String
     */
-   static protected String expandUnicode(String input) {
+   protected static String expandUnicode(String input) {
       StringBuilder sb = new StringBuilder();
       char[] chars = input.toCharArray();
       for (int i = 0; i < chars.length; i++) {
@@ -361,7 +361,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static private int getNextToken(JSONStreamTokenizer jtok, Integer[] location)
+   private static int getNextToken(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       skipWhitespace(jtok, location);
       location[LN_OFFSET] = location[LN_OFFSET] + 1;
@@ -380,7 +380,7 @@ public class JSON implements Serializable {
     * @return A {@link Long} or a {@link Double} parsed from the supplied
     *         values.
     */
-   static protected Object getNumber(Double dNum, String value) {
+   protected static Object getNumber(Double dNum, String value) {
       // if a decimal point then ensure it remains a double
       if (value.indexOf('.') >= 0) {
          return dNum;
@@ -402,7 +402,7 @@ public class JSON implements Serializable {
     *           Object to be tested
     * @return True if the supplied Object can be stored as a valid JSON value.
     */
-   static private boolean isJSONable(Object object) {
+   private static boolean isJSONable(Object object) {
       if (object == null) {
          return true;
       }
@@ -422,7 +422,7 @@ public class JSON implements Serializable {
     *           Object to be tested.
     * @return True if the supplied Object is a valid JSON object.
     */
-   static public boolean isValidObject(Object object) {
+   public static boolean isValidObject(Object object) {
       if (isJSONable(object)) {
          return true;
       }
@@ -439,7 +439,7 @@ public class JSON implements Serializable {
     *           The Class to be tested.
     * @return True if the supplied class is a valid type for JSON objects.
     */
-   static public boolean isValidType(Class<?> clazz) {
+   public static boolean isValidType(Class<?> clazz) {
       if (clazz == null) {
          throw new NullPointerException("Class is null");
       }
@@ -471,7 +471,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArtifact parse(InputStream is) throws IOException {
+   public static JSONArtifact parse(InputStream is) throws IOException {
       // note: also UNICODE of the form "\uFFFF" is not allowed in strings
       Reader r = new BufferedReader(
          new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -489,7 +489,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArtifact parse(Reader reader) throws IOException {
+   public static JSONArtifact parse(Reader reader) throws IOException {
       JSONStreamTokenizer jtok = new JSONStreamTokenizer(reader);
       Object jobj;
       jtok.resetSyntax();
@@ -533,7 +533,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArtifact parse(String str) throws IOException {
+   public static JSONArtifact parse(String str) throws IOException {
       if (str == null) {
          throw new NullPointerException("str cannot be null");
       }
@@ -551,7 +551,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static private Object recurseParser(JSONStreamTokenizer jtok, Integer[] location)
+   private static Object recurseParser(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       int tokType = getNextToken(jtok, location);
       // check what we are starting with, functions continue the work
@@ -589,7 +589,7 @@ public class JSON implements Serializable {
     * @param size
     *           the desired indentation size.
     */
-   static public void setSpacing(int size) {
+   public static void setSpacing(int size) {
       if (size < 1) {
          size = 1;
       } else if (size > 60) {
@@ -612,7 +612,7 @@ public class JSON implements Serializable {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static private int skipWhitespace(JSONStreamTokenizer jtok, Integer[] location)
+   private static int skipWhitespace(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       int tokType = jtok.nextToken(location);
       while (tokType == SPC || tokType == TAB) {
