@@ -224,7 +224,7 @@ public class JSONObject extends HashMap<String, Object>
       if (test != null) {
          return test;
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return null;
    }
 
@@ -255,7 +255,7 @@ public class JSONObject extends HashMap<String, Object>
          value = JSON.getNumber(((Number) value).doubleValue(),
             value.toString());
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return test;
    }
 
@@ -294,7 +294,7 @@ public class JSONObject extends HashMap<String, Object>
          value = JSON.getNumber(((Number) value).doubleValue(),
             value.toString());
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return true;
    }
 
