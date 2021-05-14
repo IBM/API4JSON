@@ -491,7 +491,7 @@ public class JSON implements Serializable {
     */
    static public JSONArtifact parse(Reader reader) throws IOException {
       JSONStreamTokenizer jtok = new JSONStreamTokenizer(reader);
-      Object jobj = new JSONObject();
+      Object jobj;
       jtok.resetSyntax();
       // set up word characters (all but special chars above are included)
       jtok.wordChars(';', 'Z'); // ;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ
