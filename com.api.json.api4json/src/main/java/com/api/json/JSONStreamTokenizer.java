@@ -256,7 +256,7 @@ public class JSONStreamTokenizer {
                               cBuf[2] = (char) d3;
                               cBuf[3] = (char) d4;
                               String test = new String(cBuf);
-                              if (test.toLowerCase().equals("000a")) {
+                              if (test.equalsIgnoreCase("000a")) {
                                  _nextChar = NLN;
                               } else {
                                  _nextChar = (char) Integer.parseInt(test, 16);
