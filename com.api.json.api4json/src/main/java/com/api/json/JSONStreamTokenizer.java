@@ -265,6 +265,7 @@ public class JSONStreamTokenizer {
                         } // end 3rd digit
                      } // end 2nd digit
                   } // end 1st digit
+                  break;
                } // end unicode parsing
                default: {
                   break;
