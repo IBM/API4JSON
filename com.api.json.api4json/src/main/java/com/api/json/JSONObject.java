@@ -133,7 +133,7 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -158,7 +158,7 @@ public class JSONObject extends HashMap<String, Object>
       if (value == this) {
          throw new IllegalArgumentException("Can not put an object into itself.");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -183,7 +183,7 @@ public class JSONObject extends HashMap<String, Object>
             throw new IllegalArgumentException("key must be a String");
          }
          Object value = m.get(key);
-         if (value != null && isValidType(value.getClass()) == false) {
+         if (value != null && !isValidType(value.getClass())) {
             throw new IllegalArgumentException("Invalid type of value.  Type: ["
                + value.getClass().getName() + "] with value: [" + value + "]");
          }
@@ -209,7 +209,7 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -239,11 +239,11 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
-      if (containsKey(key) == false) {
+      if (!containsKey(key)) {
          return null;
       }
       Object test = get(key);
@@ -271,11 +271,11 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
-      if (containsKey(key) == false) {
+      if (!containsKey(key)) {
          return false;
       }
       Object test = get(key);
@@ -284,7 +284,7 @@ public class JSONObject extends HashMap<String, Object>
             return false;
          }
       }
-      if (test.equals(oldValue) == false) {
+      if (!test.equals(oldValue)) {
          return false;
       }
       if (value == this) {

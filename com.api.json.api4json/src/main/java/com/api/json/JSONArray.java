@@ -120,7 +120,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public void add(int index, Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
@@ -140,7 +140,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean add(Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
@@ -162,7 +162,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       Collection<Object> testCol = new ArrayList<Object>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
-         if (element != null && JSON.isValidType(element.getClass()) == false) {
+         if (element != null && !JSON.isValidType(element.getClass())) {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
@@ -187,7 +187,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       Collection<Object> testCol = new ArrayList<Object>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
-         if (element != null && JSON.isValidType(element.getClass()) == false) {
+         if (element != null && !JSON.isValidType(element.getClass())) {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
@@ -280,7 +280,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public Object set(int index, Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
