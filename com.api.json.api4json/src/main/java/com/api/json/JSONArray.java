@@ -159,7 +159,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean addAll(Collection<?> collection) {
-      Collection<Object> testCol = new ArrayList<Object>();
+      Collection<Object> testCol = new ArrayList<>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
          if (element != null && !JSON.isValidType(element.getClass())) {
@@ -184,7 +184,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean addAll(int index, Collection<?> collection) {
-      Collection<Object> testCol = new ArrayList<Object>();
+      Collection<Object> testCol = new ArrayList<>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
          if (element != null && !JSON.isValidType(element.getClass())) {

@@ -385,7 +385,7 @@ public class JSONObject extends HashMap<String, Object>
       sb.append("{");
       // do indent
       indent += incr;
-      TreeSet<Object> keyTree = new TreeSet<Object>();
+      TreeSet<Object> keyTree = new TreeSet<>();
       keyTree.addAll(keySet());
       for (Iterator<Object> it = keyTree.iterator(); it.hasNext();) {
          if (newObj) {
