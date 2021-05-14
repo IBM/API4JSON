@@ -403,16 +403,11 @@ public class JSON implements Serializable {
     * @return True if the supplied Object can be stored as a valid JSON value.
     */
    private static boolean isJSONable(Object object) {
-      if (object == null) {
-         return true;
-      }
-      if ((object instanceof String) || //
-         (object instanceof Boolean) || //
-         (object instanceof Number) || //
-         (object instanceof JSONArtifact)) {
-         return true;
-      }
-      return false;
+      return (object == null ||
+         (object instanceof String) || 
+         (object instanceof Boolean) ||
+         (object instanceof Number) || 
+         (object instanceof JSONArtifact));
    }
 
    /**
@@ -423,10 +418,7 @@ public class JSON implements Serializable {
     * @return True if the supplied Object is a valid JSON object.
     */
    public static boolean isValidObject(Object object) {
-      if (isJSONable(object)) {
-         return true;
-      }
-      return false;
+      return isJSONable(object);
    }
 
    /**
@@ -443,7 +435,7 @@ public class JSON implements Serializable {
       if (clazz == null) {
          throw new NullPointerException("Class is null");
       }
-      if ((clazz.getName().equals(String.class.getName())) || //
+      return ((clazz.getName().equals(String.class.getName())) || //
          (clazz.getName().equals(Boolean.class.getName())) || //
          // do the Number classes
          (clazz.getName().equals(Integer.class.getName())) || //
@@ -454,10 +446,7 @@ public class JSON implements Serializable {
          (clazz.getName().equals(Float.class.getName())) || //
          // do the JSONArtifact classes
          (clazz.getName().equals(JSONObject.class.getName())) || //
-         (clazz.getName().equals(JSONArray.class.getName()))) {
-         return true;
-      }
-      return false;
+         (clazz.getName().equals(JSONArray.class.getName())));
    }
 
    /**

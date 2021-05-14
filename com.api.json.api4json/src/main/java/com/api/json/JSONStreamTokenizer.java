@@ -385,16 +385,9 @@ public class JSONStreamTokenizer {
     * @return true if input is a hex character
     */
    boolean isHexChar(int test) {
-      if (0x30 <= test && test <= 0x39) {
-         return true;
-      }
-      if (0x41 <= test && test <= 0x46) {
-         return true;
-      }
-      if (0x61 <= test && test <= 0x66) {
-         return true;
-      }
-      return false;
+      return ( (0x30 <= test && test <= 0x39) ||
+               (0x41 <= test && test <= 0x46) ||
+               (0x61 <= test && test <= 0x66) );
    }
 
    /**
