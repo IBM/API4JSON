@@ -326,7 +326,7 @@ public class JSONObject extends HashMap<String, Object>
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      os.write(toString().getBytes("UTF8"));
+      os.write(toString().getBytes(StandardCharsets.UTF_8));
    }
 
    /**
