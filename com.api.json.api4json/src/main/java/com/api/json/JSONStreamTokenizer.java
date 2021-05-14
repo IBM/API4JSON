@@ -49,18 +49,18 @@ public class JSONStreamTokenizer {
    private static final int _IS_WORD = 0x008;
 
    // character constants
-   static private final int BSH = '\\';
-   static private final int BSP = '\b';
-   static private final int CRT = (int) '\r';
-   static private final int DPT = (int) '.';
-   static private final int DQTE = (int) '"';
-   static private final int EOF = -1;
-   static private final int FFD = (int) '\f';
-   static private final int HYP = (int) '-';
-   static private final int NLN = (int) '\n';
-   static private final int SPC = (int) ' ';
-   static private final int SQTE = (int) '\'';
-   static private final int TAB = (int) '\t';
+   private static final int BSH = '\\';
+   private static final int BSP = '\b';
+   private static final int CRT = (int) '\r';
+   private static final int DPT = (int) '.';
+   private static final int DQTE = (int) '"';
+   private static final int EOF = -1;
+   private static final int FFD = (int) '\f';
+   private static final int HYP = (int) '-';
+   private static final int NLN = (int) '\n';
+   private static final int SPC = (int) ' ';
+   private static final int SQTE = (int) '\'';
+   private static final int TAB = (int) '\t';
 
    // text type references
    public static final int TT_EOF = -1;
@@ -78,7 +78,7 @@ public class JSONStreamTokenizer {
    int _nextChar = -1;
 
    PushbackReader _reader = null;
-   StringBuffer _currentValue = new StringBuffer();
+   StringBuilder _currentValue = new StringBuilder();
    int[] _charTable = new int[65536];
 
    // compatibility variables
@@ -256,7 +256,7 @@ public class JSONStreamTokenizer {
                               cBuf[2] = (char) d3;
                               cBuf[3] = (char) d4;
                               String test = new String(cBuf);
-                              if (test.toLowerCase().equals("000a")) {
+                              if (test.equalsIgnoreCase("000a")) {
                                  _nextChar = NLN;
                               } else {
                                  _nextChar = (char) Integer.parseInt(test, 16);
@@ -265,6 +265,7 @@ public class JSONStreamTokenizer {
                         } // end 3rd digit
                      } // end 2nd digit
                   } // end 1st digit
+                  break;
                } // end unicode parsing
                default: {
                   break;
@@ -384,16 +385,9 @@ public class JSONStreamTokenizer {
     * @return true if input is a hex character
     */
    boolean isHexChar(int test) {
-      if (0x30 <= test && test <= 0x39) {
-         return true;
-      }
-      if (0x41 <= test && test <= 0x46) {
-         return true;
-      }
-      if (0x61 <= test && test <= 0x66) {
-         return true;
-      }
-      return false;
+      return ( (0x30 <= test && test <= 0x39) ||
+               (0x41 <= test && test <= 0x46) ||
+               (0x61 <= test && test <= 0x66) );
    }
 
    /**

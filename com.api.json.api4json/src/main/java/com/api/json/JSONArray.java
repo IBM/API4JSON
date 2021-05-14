@@ -40,7 +40,7 @@ import java.util.Iterator;
 
 public class JSONArray extends ArrayList<Object> implements JSONArtifact {
 
-   static private final long serialVersionUID = 8669267182948350538L;
+   private static final long serialVersionUID = 8669267182948350538L;
 
    /**
     * Parses the supplied input stream to derive a {@link JSONArray}
@@ -51,7 +51,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(InputStream is) throws IOException {
+   public static JSONArray parse(InputStream is) throws IOException {
       JSONArtifact artifact = JSON.parse(is);
       try {
          return (JSONArray) artifact;
@@ -70,7 +70,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(Reader reader) throws IOException {
+   public static JSONArray parse(Reader reader) throws IOException {
       JSONArtifact artifact = JSON.parse(reader);
       try {
          return (JSONArray) artifact;
@@ -89,7 +89,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @throws IOException
     *            If a parsing error occurs.
     */
-   static public JSONArray parse(String input) throws IOException {
+   public static JSONArray parse(String input) throws IOException {
       JSONArtifact artifact = JSON.parse(input);
       try {
          return (JSONArray) artifact;
@@ -120,7 +120,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public void add(int index, Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
@@ -140,7 +140,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean add(Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
@@ -159,10 +159,10 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean addAll(Collection<?> collection) {
-      Collection<Object> testCol = new ArrayList<Object>();
+      Collection<Object> testCol = new ArrayList<>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
-         if (element != null && JSON.isValidType(element.getClass()) == false) {
+         if (element != null && !JSON.isValidType(element.getClass())) {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
@@ -184,10 +184,10 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public boolean addAll(int index, Collection<?> collection) {
-      Collection<Object> testCol = new ArrayList<Object>();
+      Collection<Object> testCol = new ArrayList<>();
       for (Iterator<?> it = collection.iterator(); it.hasNext();) {
          Object element = it.next();
-         if (element != null && JSON.isValidType(element.getClass()) == false) {
+         if (element != null && !JSON.isValidType(element.getClass())) {
             throw new IllegalArgumentException(
                "Invalid type of value.  Type: [" + element.getClass().getName()
                   + "] with value: [" + element + "]");
@@ -218,7 +218,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
    @Override
    public String serialize(boolean verbose) throws IOException {
       if (verbose) {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          return toString(sb, 0, JSON.INCR);
       }
       return toString();
@@ -232,8 +232,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      os.write(toString().getBytes("UTF8"));
-      return;
+      os.write(toString().getBytes(StandardCharsets.UTF_8));
    }
 
    /*
@@ -245,9 +244,8 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       os.write(toString(sb, 0, JSON.INCR).getBytes(StandardCharsets.UTF_8));
-      return;
    }
 
    /*
@@ -259,7 +257,6 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
          throw new NullPointerException("Writer is null.");
       }
       writer.write(toString());
-      return;
    }
 
    /*
@@ -270,9 +267,8 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
       if (writer == null) {
          throw new NullPointerException("Writer is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       writer.write(toString(sb, 0, JSON.INCR));
-      return;
    }
 
    /*
@@ -280,7 +276,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     */
    @Override
    public Object set(int index, Object element) {
-      if (element != null && JSON.isValidType(element.getClass()) == false) {
+      if (element != null && !JSON.isValidType(element.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + element.getClass().getName() + "] with value: [" + element + "]");
       }
@@ -291,15 +287,15 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
     * @see java.util.AbstractCollection#toString()
     */
    public String toString() {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       return toString(sb, 0, 0);
    }
 
    /*
-    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuffer, int,
+    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuilder, int,
     *      int)
     */
-   public String toString(StringBuffer sb, int indent, int incr) {
+   public String toString(StringBuilder sb, int indent, int incr) {
       boolean newObj = true;
       // depth first search to generate objects and values
       sb.append("[");
@@ -325,7 +321,7 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
             if (obj instanceof String) {
                sb.append("\"" + JSON.cleanUpString(obj) + "\"");
             } else if (obj instanceof JSONArtifact) {
-               sb.append(((JSONArtifact) obj).toString(new StringBuffer(),
+               sb.append(((JSONArtifact) obj).toString(new StringBuilder(),
                   indent, incr));
             } else {
                sb.append(obj);

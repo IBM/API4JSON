@@ -43,7 +43,7 @@ import java.util.function.BiFunction;
 public class JSONObject extends HashMap<String, Object>
          implements JSONArtifact {
 
-   static private final long serialVersionUID = -3778496643896012786L;
+   private static final long serialVersionUID = -3778496643896012786L;
 
    /**
     * Determines whether the supplied object is a valid JSON value
@@ -52,7 +52,7 @@ public class JSONObject extends HashMap<String, Object>
     *           The object to be tested for validity
     * @return True if the supplied object is a valid JSON value
     */
-   static public boolean isValidObject(Object object) {
+   public static boolean isValidObject(Object object) {
       return JSON.isValidObject(object);
    }
 
@@ -63,7 +63,7 @@ public class JSONObject extends HashMap<String, Object>
     *           The class to be tested for validity
     * @return True if the supplied class is a valid JSON type
     */
-   static public boolean isValidType(Class<?> clazz) {
+   public static boolean isValidType(Class<?> clazz) {
       return JSON.isValidType(clazz);
    }
 
@@ -76,7 +76,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the input stream
     */
-   static public JSONObject parse(InputStream is) throws IOException {
+   public static JSONObject parse(InputStream is) throws IOException {
       return (JSONObject) JSON.parse(is);
    }
 
@@ -89,7 +89,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the reader
     */
-   static public JSONObject parse(Reader reader) throws IOException {
+   public static JSONObject parse(Reader reader) throws IOException {
       return (JSONObject) JSON.parse(reader);
    }
 
@@ -102,7 +102,7 @@ public class JSONObject extends HashMap<String, Object>
     * @throws IOException
     *            if an error occurs reading or parsing the input
     */
-   static public JSONObject parse(String input) throws IOException {
+   public static JSONObject parse(String input) throws IOException {
       return (JSONObject) JSON.parse(input);
    }
 
@@ -133,7 +133,7 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -158,7 +158,7 @@ public class JSONObject extends HashMap<String, Object>
       if (value == this) {
          throw new IllegalArgumentException("Can not put an object into itself.");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -166,7 +166,7 @@ public class JSONObject extends HashMap<String, Object>
          value = JSON.getNumber(((Number) value).doubleValue(),
             value.toString());
       }
-      return super.put(key == null ? null : key.toString(), value);
+      return super.put(key, value);
    }
 
    /**
@@ -183,7 +183,7 @@ public class JSONObject extends HashMap<String, Object>
             throw new IllegalArgumentException("key must be a String");
          }
          Object value = m.get(key);
-         if (value != null && isValidType(value.getClass()) == false) {
+         if (value != null && !isValidType(value.getClass())) {
             throw new IllegalArgumentException("Invalid type of value.  Type: ["
                + value.getClass().getName() + "] with value: [" + value + "]");
          }
@@ -194,7 +194,7 @@ public class JSONObject extends HashMap<String, Object>
             value = JSON.getNumber(((Number) value).doubleValue(),
                value.toString());
          }
-         super.put(key == null ? null : key.toString(), value);
+         super.put((String)key, value);
       }
    }
 
@@ -209,7 +209,7 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
@@ -224,7 +224,7 @@ public class JSONObject extends HashMap<String, Object>
       if (test != null) {
          return test;
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return null;
    }
 
@@ -239,11 +239,11 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
-      if (containsKey(key) == false) {
+      if (!containsKey(key)) {
          return null;
       }
       Object test = get(key);
@@ -255,7 +255,7 @@ public class JSONObject extends HashMap<String, Object>
          value = JSON.getNumber(((Number) value).doubleValue(),
             value.toString());
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return test;
    }
 
@@ -271,11 +271,11 @@ public class JSONObject extends HashMap<String, Object>
       if (!(key instanceof String)) {
          throw new IllegalArgumentException("key must be a String");
       }
-      if (value != null && isValidType(value.getClass()) == false) {
+      if (value != null && !isValidType(value.getClass())) {
          throw new IllegalArgumentException("Invalid type of value.  Type: ["
             + value.getClass().getName() + "] with value: [" + value + "]");
       }
-      if (containsKey(key) == false) {
+      if (!containsKey(key)) {
          return false;
       }
       Object test = get(key);
@@ -284,7 +284,7 @@ public class JSONObject extends HashMap<String, Object>
             return false;
          }
       }
-      if (test.equals(oldValue) == false) {
+      if (!test.equals(oldValue)) {
          return false;
       }
       if (value == this) {
@@ -294,7 +294,7 @@ public class JSONObject extends HashMap<String, Object>
          value = JSON.getNumber(((Number) value).doubleValue(),
             value.toString());
       }
-      super.put(key == null ? null : key.toString(), value);
+      super.put(key, value);
       return true;
    }
 
@@ -312,7 +312,7 @@ public class JSONObject extends HashMap<String, Object>
    @Override
    public String serialize(boolean verbose) throws IOException {
       if (verbose) {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          return toString(sb, 0, JSON.INCR);
       }
       return toString();
@@ -326,8 +326,7 @@ public class JSONObject extends HashMap<String, Object>
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      os.write(toString().getBytes("UTF8"));
-      return;
+      os.write(toString().getBytes(StandardCharsets.UTF_8));
    }
 
    /**
@@ -338,9 +337,8 @@ public class JSONObject extends HashMap<String, Object>
       if (os == null) {
          throw new NullPointerException("OutputStream is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       os.write(toString(sb, 0, JSON.INCR).getBytes(StandardCharsets.UTF_8));
-      return;
    }
 
    /**
@@ -352,7 +350,6 @@ public class JSONObject extends HashMap<String, Object>
          throw new NullPointerException("Writer is null.");
       }
       writer.write(toString());
-      return;
    }
 
    /**
@@ -363,29 +360,28 @@ public class JSONObject extends HashMap<String, Object>
       if (writer == null) {
          throw new NullPointerException("Writer is null.");
       }
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       writer.write(toString(sb, 0, JSON.INCR));
-      return;
    }
 
    /**
     * @return An unformatted rendering of this {@link JSONObject}
     */
    public String toString() {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       return toString(sb, 0, 0);
    }
 
    /**
-    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuffer, int, int)
+    * @see com.api.json.JSONArtifact#toString(java.lang.StringBuilder, int, int)
     */
-   public String toString(StringBuffer sb, int indent, int incr) {
+   public String toString(StringBuilder sb, int indent, int incr) {
       boolean newObj = true;
       // depth first search to generate objects and values
       sb.append("{");
       // do indent
       indent += incr;
-      TreeSet<Object> keyTree = new TreeSet<Object>();
+      TreeSet<Object> keyTree = new TreeSet<>();
       keyTree.addAll(keySet());
       for (Iterator<Object> it = keyTree.iterator(); it.hasNext();) {
          if (newObj) {
@@ -410,7 +406,7 @@ public class JSONObject extends HashMap<String, Object>
                sb.append("\"" + JSON.cleanUpString(obj) + "\"");
             } else if (obj instanceof JSONArtifact) {
                // this is a new JSONArtifact
-               sb.append(((JSONArtifact) obj).toString(new StringBuffer(),
+               sb.append(((JSONArtifact) obj).toString(new StringBuilder(),
                   indent, incr));
             } else {
                sb.append(obj);

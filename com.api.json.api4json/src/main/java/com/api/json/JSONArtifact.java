@@ -47,7 +47,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public String serialize() throws IOException;
+   String serialize() throws IOException;
 
    /**
     * 
@@ -58,7 +58,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public String serialize(boolean verbose) throws IOException;
+   String serialize(boolean verbose) throws IOException;
 
    /**
     * Convert this object into a stream of JSON text. Same as calling
@@ -70,7 +70,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public void serialize(OutputStream os) throws IOException;
+   void serialize(OutputStream os) throws IOException;
 
    /**
     * Convert this object into a stream of JSON text. Same as calling
@@ -84,7 +84,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public void serialize(OutputStream os, boolean verbose) throws IOException;
+   void serialize(OutputStream os, boolean verbose) throws IOException;
 
    /**
     * Convert this object into a stream of JSON text. Same as calling
@@ -95,7 +95,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public void serialize(Writer writer) throws IOException;
+   void serialize(Writer writer) throws IOException;
 
    /**
     * Convert this object into a stream of JSON text, specifying verbosity.
@@ -107,7 +107,7 @@ public interface JSONArtifact {
     * @throws IOException
     *            Thrown on IO errors during serialization.
     */
-   public void serialize(Writer writer, boolean verbose) throws IOException;
+   void serialize(Writer writer, boolean verbose) throws IOException;
 
    /**
     * Abstract method to help with recursive formatting of JSON into a String
@@ -120,5 +120,5 @@ public interface JSONArtifact {
     *           the amount of incremental spacing used for formatted output.
     * @return Formatted JSON output.
     */
-   abstract String toString(StringBuffer sb, int indent, int incr);
+   abstract String toString(StringBuilder sb, int indent, int incr);
 }
