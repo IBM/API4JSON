@@ -41,6 +41,13 @@ public class TestJSON {
 
    @Test
    public void test() {
+      String msg = "{type: ORDERING_DISABLED, message: EscalationNotice failed with status 400 because AIDT Interrupt Screen Not Active.}";
+      try {
+        JSON.parse(msg);
+        Assert.fail("Expected an IOException \"Missing comma delimiter or an unquoted string value on line 1, near column 58\"");
+    } catch (IOException e1) {
+        Assert.assertEquals("Missing comma delimiter or an unquoted string value on line 1, near column 58",e1.getLocalizedMessage());
+    }
       String unicodeTest = "™蒜肉"; // "\u2122\u849c\u8089";
       JSONArray testArray = new JSONArray();
       testArray.add("test");

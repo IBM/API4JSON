@@ -85,6 +85,9 @@ public class JSONStreamTokenizer {
    public double nval = 0.0d;
    public String sval = null;
    public int ttype = TT_UNKNOWN;
+   
+   public static int LN_CNTR = 0;
+   public static int LN_OFFSET = 1;
 
    /**
     * Constructs the JST from a {@link java.io.Reader}. There is no constructor for
@@ -123,18 +126,23 @@ public class JSONStreamTokenizer {
    /**
     * Determine if we are parsing a number
     * 
+    * @param location line number and line offset values
     * @return true if we are parsing a number
     * @throws IOException
     *                     if unable to read from the reader
     */
-   private boolean checkForNumber() throws IOException {
+   private boolean checkForNumber(Integer[] location) throws IOException {
       if ((_charTable[_nextChar] & _IS_NUMERIC) != 0) {
          if (_nextChar == HYP) {
             _nextChar = readNextChar();
+            location[LN_OFFSET] = location[LN_OFFSET]+1;
             // if next character isn't a number
             if ((_charTable[_nextChar] & _IS_NUMERIC) == 0) {
                // return hyphen as part of a string
                _reader.unread(_nextChar);
+               if (location[LN_OFFSET] > 0) {
+                  location[LN_OFFSET] = location[LN_OFFSET]-1;
+               }
                ttype = HYP;
                return true;
             }
@@ -147,8 +155,12 @@ public class JSONStreamTokenizer {
             // accumulate digits while looking for decimal point
             _currentValue.append((char) _nextChar);
             _nextChar = readNextChar();
+            location[LN_OFFSET] = location[LN_OFFSET]+1;
             if (_nextChar == EOF) {
                _reader.unread(_nextChar);
+               if (location[LN_OFFSET] > 0) {
+                  location[LN_OFFSET] = location[LN_OFFSET]-1;
+               }
                try {
                   nval = new Double(_currentValue.toString());
                   _currentValue.setLength(0);
@@ -162,6 +174,9 @@ public class JSONStreamTokenizer {
             // if this is not a number
             if ((_charTable[_nextChar] & _IS_NUMERIC) == 0 && _nextChar != HYP) {
                _reader.unread(_nextChar);
+               if (location[LN_OFFSET] > 0) {
+                  location[LN_OFFSET] = location[LN_OFFSET]-1;
+               }
                try {
                   nval = new Double(_currentValue.toString());
                   _currentValue.setLength(0);
@@ -179,6 +194,9 @@ public class JSONStreamTokenizer {
             if (decimalCount > 1) {
                // this is part of a word with multiple decimal points
                _reader.unread(_nextChar);
+               if (location[LN_OFFSET] > 0) {
+                  location[LN_OFFSET] = location[LN_OFFSET]-1;
+               }
                break;
             }
             // keep accumulating digits and decimal point
@@ -191,20 +209,23 @@ public class JSONStreamTokenizer {
    /**
     * Determine if we have reached quoted content
     * 
+    * @param location line number and line offset
     * @return true if we have reached quoted content
     * @throws IOException
     *                     if unable to read from the reader
     */
-   private boolean checkForQuotedWord() throws IOException {
+   private boolean checkForQuotedWord(Integer[] location) throws IOException {
       if ((_charTable[_nextChar] & _IS_QUOTE) != 0) {
          ttype = _nextChar; // save quote
          int _lookAhead = readNextChar();
+         location[LN_OFFSET] = location[LN_OFFSET]+1;
          // process quoted string, addressing escaped characters and octal
          // codes
          while (_lookAhead != ttype && _lookAhead != NLN && _lookAhead != CRT && _lookAhead != EOF) {
             // handle escaped content
             if (_lookAhead == BSH) {
                _nextChar = readNextChar();
+               location[LN_OFFSET] = location[LN_OFFSET]+1;
                // process other escaped characters
                switch (_nextChar) {
                case 't': {
@@ -243,12 +264,16 @@ public class JSONStreamTokenizer {
                   // part of unicode so need to read next 4 digits
                   int d1, d2, d3, d4 = 0;
                   d1 = readNextChar();
+                  location[LN_OFFSET] = location[LN_OFFSET]+1;
                   if (isHexChar(d1)) {
                      d2 = readNextChar();
+                     location[LN_OFFSET] = location[LN_OFFSET]+1;
                      if (isHexChar(d2)) {
                         d3 = readNextChar();
+                        location[LN_OFFSET] = location[LN_OFFSET]+1;
                         if (isHexChar(d3)) {
                            d4 = readNextChar();
+                           location[LN_OFFSET] = location[LN_OFFSET]+1;
                            if (isHexChar(d4)) {
                               char[] cBuf = new char[4];
                               cBuf[0] = (char) d1;
@@ -272,15 +297,20 @@ public class JSONStreamTokenizer {
                }
                } // end switch on escaped character
                _lookAhead = readNextChar();
+               location[LN_OFFSET] = location[LN_OFFSET]+1;
             } else { // end dealing with escaped value
                _nextChar = _lookAhead;
                _lookAhead = readNextChar();
+               location[LN_OFFSET] = location[LN_OFFSET]+1;
             }
             _currentValue.append((char) _nextChar);
          } // end while looking for matching quote or EOL
          if (_lookAhead != ttype) {
             // hit EOL, not matching quote
             _reader.unread(_lookAhead);
+            if (location[LN_OFFSET] > 0) {
+               location[LN_OFFSET] = location[LN_OFFSET]-1;
+            }
          }
          sval = _currentValue.toString();
          if (_lowerCaseMode) {
@@ -295,19 +325,24 @@ public class JSONStreamTokenizer {
     * Determine if we have reached a word. Note: this is used for detecting boolean
     * and null values.
     * 
+    * @param location line number and line offset
     * @return true if we find unquoted words
     * @throws IOException
     *                     if unable to read from the reader
     */
-   private boolean checkForWord() throws IOException {
+   private boolean checkForWord(Integer[] location) throws IOException {
       if ((_charTable[_nextChar] & _IS_WORD) != 0) {
          // keep reading until we hit EOF, whitespace
          while ((_charTable[_nextChar] & (_IS_NUMERIC | _IS_WORD)) != 0) {
             _currentValue.append((char) _nextChar);
             _nextChar = readNextChar();
+            location[LN_OFFSET] = location[LN_OFFSET]+1;
             if (_nextChar == EOF) {
                // reached end of file
                _reader.unread(_nextChar);
+               if (location[LN_OFFSET] > 0) {
+                  location[LN_OFFSET] = location[LN_OFFSET]-1;
+               }
                sval = _currentValue.toString();
                _currentValue.setLength(0);
                ttype = TT_WORD;
@@ -315,6 +350,9 @@ public class JSONStreamTokenizer {
             }
          }
          _reader.unread(_nextChar);
+         if (location[LN_OFFSET] > 0) {
+            location[LN_OFFSET] = location[LN_OFFSET]-1;
+         }
          sval = _currentValue.toString();
          _currentValue.setLength(0);
          if (_lowerCaseMode) {
@@ -350,11 +388,15 @@ public class JSONStreamTokenizer {
       if (_nextChar == CRT) {
          // skip /n if there is one, else push back
          _nextChar = readNextChar();
+         location[LN_OFFSET] = location[LN_OFFSET]+1;
          if (_nextChar != NLN) {
             _reader.unread(_nextChar);
+            if (location[LN_OFFSET] > 0) {
+               location[LN_OFFSET] = location[LN_OFFSET]-1;
+            }
          } else {
             // eat the newline
-            location[JSON.LN_CNTR]++;
+            location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
             location[JSON.LN_OFFSET] = 0;
          }
          if (_eolSignificant) {
@@ -362,13 +404,14 @@ public class JSONStreamTokenizer {
             return true;
          }
       } else if (_nextChar == NLN) {
-         location[JSON.LN_CNTR]++;
+         location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
          location[JSON.LN_OFFSET] = 0;
          if (_eolSignificant) {
             ttype = TT_EOL;
             return true;
          }
          _nextChar = readNextChar();
+         location[LN_OFFSET] = location[LN_OFFSET]+1;
          if (_nextChar == EOF) {
             ttype = TT_EOF;
             return true;
@@ -409,12 +452,14 @@ public class JSONStreamTokenizer {
       _currentValue.setLength(0);
       sval = null;
       _nextChar = readNextChar();
+      location[LN_OFFSET] = location[LN_OFFSET] + 1;
+      
       ttype = _nextChar;
       if (checkEOF()) {
          return ttype;
       }
-      if (skipNewLines()) {
-         location[JSON.LN_CNTR]++;
+      if (skipNewLines(location)) {
+         location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
          location[JSON.LN_OFFSET] = 0;
          if (ttype == SPC) {
             return ttype;
@@ -425,16 +470,16 @@ public class JSONStreamTokenizer {
       }
       // have first non-whitespace character
       // check if number encountered
-      if (checkForNumber()) {
+      if (checkForNumber(location)) {
          return ttype;
       }
       // if we got here, we are accumulating a word
-      if (checkForWord()) {
+      if (checkForWord(location)) {
          return ttype;
       }
 
       // if we got here, we should check for quoted word
-      if (checkForQuotedWord()) {
+      if (checkForQuotedWord(location)) {
          return ttype;
       }
 
@@ -540,13 +585,15 @@ public class JSONStreamTokenizer {
     * Reads and eats a new line ('/n') character, setting ttype as the next,
     * non-new line character or the end of file character.
     * 
+    * @param location line count and line offset
     * @return true if new lines or end of file was detected
     * @throws IOException
     */
-   private boolean skipNewLines() throws IOException {
+   private boolean skipNewLines(Integer[] location) throws IOException {
       if (_nextChar == NLN) {
          // skip newlines
          _nextChar = readNextChar();
+         location[LN_OFFSET] = location[LN_OFFSET]+1;
          if (_nextChar == EOF) {
             ttype = TT_EOF;
             return true;
@@ -571,8 +618,8 @@ public class JSONStreamTokenizer {
          if (handleEndOfLine(location)) {
             return true;
          } // else this is just whitespace so keep reading
-         location[JSON.LN_OFFSET]++;
          _nextChar = readNextChar();
+         location[LN_OFFSET] = location[LN_OFFSET]+1;
       }
       return false;
    }

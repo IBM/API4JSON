@@ -226,11 +226,9 @@ public class JSON implements Serializable {
                   } else if (tokType == RBRC) {
                      doPushBack(jtok, location);
                   } else if (tokType != CMA) {
-                     System.out.println(
-                        "Error at: " + jtok.ttype + " for " + jtok.sval);
                      throw new IOException(
-                        "Missing comma delimiter on line " + location[LN_CNTR]
-                           + ", column " + location[LN_OFFSET]);
+                        "Missing comma delimiter or an unquoted string value on line " + location[LN_CNTR]
+                           + ", near column " + location[LN_OFFSET]);
                   }
                } else {
                   // can't make the key a String
@@ -255,9 +253,6 @@ public class JSON implements Serializable {
     *           the parser with respect to the input stream.
     */
    private static void doPushBack(JSONStreamTokenizer jtok, Integer[] location) throws IOException {
-      if (location[LN_OFFSET] > 0) {
-         location[LN_OFFSET] = location[LN_OFFSET] - 1;
-      }
       jtok.pushBack();
    }
 
@@ -273,7 +268,7 @@ public class JSON implements Serializable {
     *         be converted to {@link Long} or {@link Double}.
     */
    private static Object doValue(JSONStreamTokenizer jtok, Integer[] location) {
-      location[LN_OFFSET] = location[LN_OFFSET] + (jtok.sval == null ? 0 : jtok.sval.length());
+      // location[LN_OFFSET] = location[LN_OFFSET] + (jtok.sval == null ? 0 : jtok.sval.length());
       if (jtok.ttype == DQTE) {
          return jtok.sval;
       }
@@ -364,7 +359,6 @@ public class JSON implements Serializable {
    private static int getNextToken(JSONStreamTokenizer jtok, Integer[] location)
       throws IOException {
       skipWhitespace(jtok, location);
-      location[LN_OFFSET] = location[LN_OFFSET] + 1;
       return jtok.nextToken(location);
    }
 
@@ -605,7 +599,7 @@ public class JSON implements Serializable {
       throws IOException {
       int tokType = jtok.nextToken(location);
       while (tokType == SPC || tokType == TAB) {
-         location[LN_OFFSET] = location[LN_OFFSET] + 1;
+         // location[LN_OFFSET] = location[LN_OFFSET] + 1;
          tokType = jtok.nextToken(location); // keep eating spaces
       }
       // back up to prior non-space character
