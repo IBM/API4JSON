@@ -1,30 +1,25 @@
 /**
- * (c) Copyright IBM Corporation 2018
+ * (c) Copyright 2018-2023 IBM Corporation
  * 1 New Orchard Road, 
  * Armonk, New York, 10504-1722
  * United States
  * +1 914 499 1900
- * support: wnm3@us.ibm.com
+ * Nathaniel Mills wnm3@us.ibm.com
  *
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or (at
- * your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * License are described here:
- * https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
- * https://www.gnu.org/licenses/lgpl-3.0.en.html
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser
- * General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
+
 package com.api.json;
 
 import java.io.BufferedReader;
@@ -46,7 +41,7 @@ public class JSON implements Serializable {
    public static String BLANKSTR = "                                                            ";
 
    // used to escape solidus (/) as (\/)
-   protected static boolean ESCAPE_SOLIDUS = true;
+   protected static boolean ESCAPE_SOLIDUS = false; // was true in v2.0.1
 
    // private static final char BSH = '\\';
    private static final char BSP = '\b';
