@@ -156,7 +156,7 @@ public class JSONStreamTokenizer {
                   location[LN_OFFSET] = location[LN_OFFSET]-1;
                }
                try {
-                  nval = new Double(_currentValue.toString());
+                  nval = Double.valueOf(_currentValue.toString());
                   _currentValue.setLength(0);
                   ttype = TT_NUMBER;
                   return true;
@@ -172,7 +172,7 @@ public class JSONStreamTokenizer {
                   location[LN_OFFSET] = location[LN_OFFSET]-1;
                }
                try {
-                  nval = new Double(_currentValue.toString());
+                  nval = Double.valueOf(_currentValue.toString());
                   _currentValue.setLength(0);
                   ttype = TT_NUMBER;
                   return true;
@@ -390,16 +390,16 @@ public class JSONStreamTokenizer {
             }
          } else {
             // eat the newline
-            location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
-            location[JSON.LN_OFFSET] = 0;
+            location[LN_CNTR] = location[LN_CNTR]+1;
+            location[LN_OFFSET] = 0;
          }
          if (_eolSignificant) {
             ttype = TT_EOL;
             return true;
          }
       } else if (_nextChar == NLN) {
-         location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
-         location[JSON.LN_OFFSET] = 0;
+         location[LN_CNTR] = location[LN_CNTR]+1;
+         location[LN_OFFSET] = 0;
          if (_eolSignificant) {
             ttype = TT_EOL;
             return true;
@@ -453,8 +453,8 @@ public class JSONStreamTokenizer {
          return ttype;
       }
       if (skipNewLines(location)) {
-         location[JSON.LN_CNTR] = location[JSON.LN_CNTR]+1;
-         location[JSON.LN_OFFSET] = 0;
+         location[LN_CNTR] = location[LN_CNTR]+1;
+         location[LN_OFFSET] = 0;
          if (ttype == SPC) {
             return ttype;
          }
@@ -501,7 +501,7 @@ public class JSONStreamTokenizer {
     *            ending, higher value character
     */
    public void ordinaryChars(int low, int hi) {
-      for (int i = low; i < hi; i++) {
+      for (int i = low; i <= hi; i++) {
          // clear any previous flags
          _charTable[i] = _IS_ORDINARY;
       }
@@ -513,7 +513,7 @@ public class JSONStreamTokenizer {
     */
    public void parseNumbers() {
       // use OR because NUMERIC characters can also be wordChars
-      for (int i = 0x0030; i < 0x0039; i++) {
+      for (int i = 0x0030; i < 0x003a; i++) {
          _charTable[i] |= _IS_NUMERIC;
       }
       _charTable[0x002d] |= _IS_NUMERIC; // '.'

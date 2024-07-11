@@ -239,7 +239,11 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
          throw new NullPointerException("OutputStream is null.");
       }
       StringBuilder sb = new StringBuilder();
-      os.write(toString(sb, 0, JSON.INCR).getBytes(StandardCharsets.UTF_8));
+      if (verbose) {
+          os.write(toString(sb, 0, JSON.INCR).getBytes(StandardCharsets.UTF_8));
+      } else {
+          os.write(toString().getBytes(StandardCharsets.UTF_8));
+      }
    }
 
    /*
@@ -262,7 +266,11 @@ public class JSONArray extends ArrayList<Object> implements JSONArtifact {
          throw new NullPointerException("Writer is null.");
       }
       StringBuilder sb = new StringBuilder();
-      writer.write(toString(sb, 0, JSON.INCR));
+      if (verbose) {
+          writer.write(toString(sb, 0, JSON.INCR));
+      } else {
+          writer.write(toString());
+      }
    }
 
    /*
