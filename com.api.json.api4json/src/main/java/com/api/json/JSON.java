@@ -318,7 +318,7 @@ public class JSON implements Serializable {
                if (ch > 0x0f) {
                   sb.append("\\u00"+Integer.toHexString(ch));
                } else {
-                  sb.append("\\u000"+(int)ch);
+                  sb.append("\\u000"+Integer.toHexString(ch));
                }
             }
          } else if (ch < 0x1000) {

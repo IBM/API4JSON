@@ -1,5 +1,7 @@
 # API4JSON
-### Version 3.0.1
+### Version 4.0.0
+
+There was a bug for unicode with single hex digits that was fixed. Because this was generating bad data I thought it important to release a new major version. The bug was turning \u000b into \u00011 for example.
 
 Switched from Java 1.8 to Java 11
 

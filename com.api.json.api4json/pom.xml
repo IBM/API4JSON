@@ -27,7 +27,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.wnm3</groupId>
 	<artifactId>API4JSON</artifactId>
-	<version>3.0.1</version>
+	<version>4.0.0</version>
 	<name>API4JSON</name>
 	<description>API's to manipulate JSON modeled after IBM's json4j including
 		key-sorted serialization</description>
