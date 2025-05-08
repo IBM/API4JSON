@@ -75,6 +75,25 @@
 		</dependency>
 	</dependencies>
 	<build>
+		  <pluginManagement>
+		    <plugins>
+		      <plugin>
+				<inherited>true</inherited>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-source-plugin</artifactId>
+		        <version>3.2.1</version>
+		        <executions>
+		          <execution>
+		            <!-- This id must match the -Prelease-profile id value or else sources will be "uploaded" twice, which causes Nexus to fail -->
+		            <id>attach-sources</id>
+		            <goals>
+		              <goal>jar</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin>
+		    </plugins>    
+		  </pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
@@ -104,15 +123,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
