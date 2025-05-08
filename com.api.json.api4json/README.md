@@ -1,5 +1,5 @@
 # API4JSON
-### Version 4.0.0
+### Version 4.0.1
 
 There was a bug for unicode with single hex digits that was fixed. Because this was generating bad data I thought it important to release a new major version. The bug was turning \u000b into \u00011 for example.
 
@@ -18,7 +18,7 @@ For people familiar with the IBM json4j library, simply use this jar and change 
 You'll need to set up the following build environment:
   * Java JDK 11 (we've used the IBM Semuru JDK from [this](https://developer.ibm.com/languages/java/semeru-runtimes/downloads/) download site)
   * Install Maven from [this](https://maven.apache.org/download.cgi) download site.  
-  * Developers, please use Eclipse version 2024-06 or later.
+  * Developers, please use Eclipse version 2025-06 or later.
 
 
 ## Building Jar Files ##
