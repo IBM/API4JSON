@@ -1,5 +1,5 @@
 # API4JSON
-### Version 4.0.2
+### Version 4.0.3
 
 There was a bug for unicode with single hex digits that was fixed. Because this was generating bad data I thought it important to release a new major version. The bug was turning \u000b into \u00011 for example.
 
