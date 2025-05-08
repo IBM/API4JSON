@@ -81,7 +81,7 @@
 				<inherited>true</inherited>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-source-plugin</artifactId>
-		        <version>3.2.1</version>
+		        <version>3.3.1</version>
 		        <executions>
 		          <execution>
 		            <!-- This id must match the -Prelease-profile id value or else sources will be "uploaded" twice, which causes Nexus to fail -->
